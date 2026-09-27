@@ -1,8 +1,6 @@
 # SmartPark KE
 
-A modern, web-based parking management system built for the **Data Structures
-and Algorithms** "Actual System Development" assignment (Multimedia University
-of Kenya).
+A modern, web-based parking management system built for the management of cars in a building or institution.
 
 It implements the design from Task One:
 
