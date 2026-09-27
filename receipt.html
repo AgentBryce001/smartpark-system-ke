@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}SmartPark KE — Receipt{% endblock %}
+{% block content %}
+
+<section class="panel narrow receipt-card">
+  <div class="barrier-open">BARRIER OPEN</div>
+  <h2>Payment Confirmed</h2>
+  <table class="kv-table">
+    <tr><th>Ticket</th><td>#{{ receipt.ticket_id }}</td></tr>
+    <tr><th>Plate Number</th><td>{{ receipt.plate_number }}</td></tr>
+    <tr><th>Time Parked</th><td>{{ receipt.minutes_parked }} minutes</td></tr>
+    <tr><th>Amount Paid</th><td class="fee-amount">Kshs. {{ "%.2f"|format(receipt.fee_paid) }}</td></tr>
+    <tr><th>Payment Method</th><td>{{ receipt.payment_method }}</td></tr>
+    {% if receipt.payment_method == 'MPESA' %}
+    <tr><th>M-Pesa Phone</th><td>{{ receipt.phone_number }}</td></tr>
+    <tr><th>M-Pesa Receipt No.</th><td>{{ receipt.mpesa_receipt }}</td></tr>
+    {% endif %}
+  </table>
+  <p class="muted">Thank you for using SmartPark KE. Drive safely.</p>
+  <a href="{{ url_for('index') }}" class="btn-primary btn-link">Back to Slot Display</a>
+</section>
+{% endblock %}

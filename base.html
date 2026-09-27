@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}SmartPark KE{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">P</span>
+      <span>SmartPark <strong>KE</strong></span>
+    </div>
+    <nav>
+      <a href="{{ url_for('index') }}">Entry / Slots</a>
+      <a href="{{ url_for('exit_lookup') }}">Exit &amp; Pay</a>
+      <a href="{{ url_for('admin') }}">Admin</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-stack">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    SmartPark KE &mdash; Data Structures &amp; Algorithms project &middot;
+    Bryson Muthomi Mutugi (CIT-223-024/2025) &middot; Multimedia University of Kenya
+  </footer>
+</body>
+</html>

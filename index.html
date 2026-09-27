@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}SmartPark KE — Available Slots{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div>
+    <h1>Live Parking Availability</h1>
+    <p class="muted">Drivers can see open bays before entering the facility.</p>
+  </div>
+  <div class="summary-cards">
+    <div class="stat-card">
+      <span class="stat-value">{{ summary.free }}</span>
+      <span class="stat-label">Free</span>
+    </div>
+    <div class="stat-card occupied">
+      <span class="stat-value">{{ summary.occupied }}</span>
+      <span class="stat-label">Occupied</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">{{ summary.total_slots }}</span>
+      <span class="stat-label">Total Bays</span>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Slot Display</h2>
+  <div id="slot-grid" class="slot-grid">
+    {% for slot in slots %}
+      <div class="slot {{ 'free' if slot.status == 'FREE' else 'occupied' if slot.status == 'OCCUPIED' else 'oos' }}" title="Zone {{ slot.zone }}">
+        {{ slot.slot_code }}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="legend">
+    <span><i class="dot free"></i> Free</span>
+    <span><i class="dot occupied"></i> Occupied</span>
+    <span><i class="dot oos"></i> Out of service</span>
+  </div>
+</section>
+
+<section class="panel narrow">
+  <h2>Register Vehicle Entry</h2>
+  <form method="POST" action="{{ url_for('entry') }}" class="stacked-form">
+    <label for="plate_number">Vehicle Plate Number</label>
+    <input type="text" id="plate_number" name="plate_number" placeholder="e.g. KDA 123X" required>
+    <button type="submit" class="btn-primary">Issue Ticket &amp; Allocate Slot</button>
+  </form>
+</section>
+
+<script>
+  // Poll the slot status every 5 seconds so the visual display stays live
+  // without requiring the driver to refresh the page.
+  async function refreshSlots() {
+    try {
+      const res = await fetch("{{ url_for('api_slots') }}");
+      const data = await res.json();
+      const grid = document.getElementById("slot-grid");
+      grid.innerHTML = "";
+      data.slots.forEach(slot => {
+        const div = document.createElement("div");
+        const cls = slot.status === "FREE" ? "free" : slot.status === "OCCUPIED" ? "occupied" : "oos";
+        div.className = "slot " + cls;
+        div.title = "Zone " + slot.zone;
+        div.textContent = slot.slot_code;
+        grid.appendChild(div);
+      });
+    } catch (e) {
+      // Silently ignore transient network errors during polling.
+    }
+  }
+  setInterval(refreshSlots, 5000);
+</script>
+{% endblock %}

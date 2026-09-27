@@ -1,0 +1,236 @@
+:root {
+  --navy: #1f3864;
+  --navy-light: #2e5395;
+  --gold: #bf9000;
+  --gold-fill: #fff2cc;
+  --green: #2e7d32;
+  --red: #c62828;
+  --gray: #757575;
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #1a1a1a;
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar {
+  background: var(--navy);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px;
+}
+
+.brand { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 600; }
+.brand-mark {
+  background: var(--gold);
+  color: var(--navy);
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 22px;
+  font-size: 15px;
+  opacity: 0.9;
+}
+nav a:hover { opacity: 1; text-decoration: underline; }
+
+.container { max-width: 960px; margin: 0 auto; padding: 28px 20px 60px; }
+
+.hero { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+.hero h1 { margin: 0 0 6px; color: var(--navy); }
+.muted { color: var(--gray); margin: 0; }
+
+.summary-cards { display: flex; gap: 12px; }
+.stat-card {
+  background: var(--card);
+  border: 1px solid #e2e6ee;
+  border-radius: 10px;
+  padding: 12px 18px;
+  text-align: center;
+  min-width: 90px;
+}
+.stat-card.occupied { border-color: #f3d1d1; }
+.stat-value { display: block; font-size: 22px; font-weight: 700; color: var(--navy); }
+.stat-card.occupied .stat-value { color: var(--red); }
+.stat-label { font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.04em; }
+
+.panel {
+  background: var(--card);
+  border: 1px solid #e2e6ee;
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 22px;
+}
+.panel.narrow { max-width: 440px; }
+.panel h2 { margin-top: 0; color: var(--navy-light); font-size: 18px; }
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.slot {
+  padding: 12px 4px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  color: white;
+}
+.slot.free { background: var(--green); }
+.slot.occupied { background: var(--red); }
+.slot.oos { background: #9e9e9e; }
+
+.legend { display: flex; gap: 18px; font-size: 13px; color: var(--gray); }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+.dot.free { background: var(--green); }
+.dot.occupied { background: var(--red); }
+.dot.oos { background: #9e9e9e; }
+
+.stacked-form { display: flex; flex-direction: column; gap: 6px; }
+.stacked-form label { font-size: 13px; color: var(--gray); margin-top: 8px; }
+.stacked-form input, .stacked-form select {
+  padding: 10px 12px;
+  border: 1px solid #d7dce6;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.btn-primary {
+  margin-top: 16px;
+  background: var(--navy);
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--navy-light); }
+.btn-link { margin-top: 20px; }
+
+.btn-small {
+  background: var(--gold-fill);
+  color: #7f6000;
+  border: 1px solid var(--gold);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.kv-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.kv-table th { text-align: left; color: var(--gray); font-weight: 500; padding: 6px 0; width: 40%; }
+.kv-table td { padding: 6px 0; font-weight: 600; }
+.fee-amount { color: var(--navy); font-size: 20px; }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.data-table th {
+  background: var(--navy);
+  color: white;
+  text-align: left;
+  padding: 8px 10px;
+}
+.data-table td { padding: 8px 10px; border-bottom: 1px solid #eef0f5; }
+.data-table tr:nth-child(even) td { background: #f7f9fc; }
+.data-table input { width: 100%; padding: 6px; border: 1px solid #d7dce6; border-radius: 6px; }
+
+.bill-card, .receipt-card { text-align: left; }
+.barrier-open {
+  background: var(--gold-fill);
+  color: #7f6000;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+}
+
+.method-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.method-tab {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #d7dce6;
+  background: #f7f9fc;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gray);
+}
+.method-tab.active { background: var(--navy); color: white; border-color: var(--navy); }
+
+.mpesa-badge {
+  display: inline-block;
+  background: #00a651;
+  color: white;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+.mpesa-badge.large { font-size: 16px; padding: 6px 14px; }
+
+.btn-mpesa { background: #00a651; }
+.btn-mpesa:hover { background: #008c44; }
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--gray);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.mpesa-card { text-align: center; }
+.mpesa-card form { margin-top: 10px; }
+.mpesa-note { margin-top: 18px; font-size: 12px; }
+.small { font-size: 13px; }
+
+.mpesa-spinner {
+  width: 34px; height: 34px;
+  border: 3px solid #d9f0e2;
+  border-top-color: #00a651;
+  border-radius: 50%;
+  margin: 16px auto;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.flash-stack { margin-bottom: 18px; }
+.flash { padding: 12px 16px; border-radius: 8px; margin-bottom: 10px; font-size: 14px; }
+.flash-success { background: #e6f4ea; color: #1e4620; border: 1px solid #b7dfc0; }
+.flash-error { background: #fdecea; color: #7d1c17; border: 1px solid #f3c6c2; }
+
+.footer {
+  text-align: center;
+  color: var(--gray);
+  font-size: 12px;
+  padding: 20px;
+}

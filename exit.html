@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}SmartPark KE — Exit &amp; Pay{% endblock %}
+{% block content %}
+
+<section class="panel narrow">
+  <h2>Look Up Ticket</h2>
+  <form method="POST" action="{{ url_for('exit_calculate') }}" class="stacked-form">
+    <label for="ticket_id">Ticket Number</label>
+    <input type="number" id="ticket_id" name="ticket_id" placeholder="e.g. 7" required>
+    <button type="submit" class="btn-primary">Calculate Fee</button>
+  </form>
+</section>
+
+{% if bill %}
+<section class="panel narrow bill-card">
+  <h2>Amount Due</h2>
+  <table class="kv-table">
+    <tr><th>Ticket</th><td>#{{ bill.ticket_id }}</td></tr>
+    <tr><th>Plate Number</th><td>{{ bill.plate_number }}</td></tr>
+    <tr><th>Time Parked</th><td>{{ bill.minutes_parked }} minutes</td></tr>
+    <tr><th>Fee Due</th><td class="fee-amount">Kshs. {{ "%.2f"|format(bill.fee) }}</td></tr>
+  </table>
+
+  <div class="method-tabs">
+    <button type="button" class="method-tab active" data-method="cash">Cash / Card</button>
+    <button type="button" class="method-tab" data-method="mpesa">M-Pesa</button>
+  </div>
+
+  <!-- Cash / Card payment -->
+  <form method="POST" action="{{ url_for('pay') }}" class="stacked-form pay-panel" id="panel-cash">
+    <input type="hidden" name="ticket_id" value="{{ bill.ticket_id }}">
+    <label for="amount">Amount Tendered (Kshs.)</label>
+    <input type="number" step="0.01" id="amount" name="amount" value="{{ bill.fee }}" required>
+    <label for="payment_method">Payment Method</label>
+    <select id="payment_method" name="payment_method">
+      <option value="CASH">Cash</option>
+      <option value="CARD">Card</option>
+    </select>
+    <button type="submit" class="btn-primary">Pay &amp; Open Barrier</button>
+  </form>
+
+  <!-- M-Pesa payment -->
+  <form method="POST" action="{{ url_for('mpesa_initiate') }}" class="stacked-form pay-panel mpesa-panel" id="panel-mpesa" hidden>
+    <input type="hidden" name="ticket_id" value="{{ bill.ticket_id }}">
+    <div class="mpesa-badge">M-PESA</div>
+    <label for="phone_number">M-Pesa Phone Number</label>
+    <input type="tel" id="phone_number" name="phone_number" placeholder="e.g. 0712345678" required>
+    <p class="muted small">You'll be sent an M-Pesa PIN prompt for Kshs. {{ "%.2f"|format(bill.fee) }}.</p>
+    <button type="submit" class="btn-primary btn-mpesa">Send STK Push</button>
+  </form>
+</section>
+
+<script>
+  document.querySelectorAll(".method-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".method-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const method = tab.dataset.method;
+      document.getElementById("panel-cash").hidden = method !== "cash";
+      document.getElementById("panel-mpesa").hidden = method !== "mpesa";
+    });
+  });
+</script>
+{% endif %}
+{% endblock %}

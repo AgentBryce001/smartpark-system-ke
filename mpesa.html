@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}SmartPark KE — M-Pesa Payment{% endblock %}
+{% block content %}
+
+<section class="panel narrow mpesa-card">
+  <div class="mpesa-badge large">M-PESA</div>
+  <h2>Confirm Payment on Your Phone</h2>
+  <p class="muted">
+    An M-Pesa prompt for <strong>Kshs. {{ "%.2f"|format(push.amount) }}</strong>
+    has been sent to <strong>{{ push.phone_number }}</strong>.
+  </p>
+  <p class="muted small">Enter your M-Pesa PIN on your handset to complete the payment.</p>
+
+  <div class="mpesa-spinner"></div>
+
+  <form method="POST" action="{{ url_for('mpesa_confirm') }}">
+    <input type="hidden" name="ticket_id" value="{{ push.ticket_id }}">
+    <button type="submit" class="btn-primary btn-mpesa">
+      I've Entered My PIN — Confirm Payment
+    </button>
+  </form>
+  <form method="POST" action="{{ url_for('mpesa_cancel') }}">
+    <input type="hidden" name="ticket_id" value="{{ push.ticket_id }}">
+    <button type="submit" class="btn-text">Cancel</button>
+  </form>
+
+  <p class="muted small mpesa-note">
+    (Simulated for coursework — a production deployment would receive this
+    confirmation automatically via the Safaricom Daraja callback URL instead
+    of a manual button.)
+  </p>
+</section>
+{% endblock %}
